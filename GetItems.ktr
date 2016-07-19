@@ -131,7 +131,6 @@
   </connection>
   <order>
   <hop> <from>Get Results from Porini</from><to>Modify inventory values</to><enabled>Y</enabled> </hop>
-  <hop> <from>Modify inventory values</from><to>Write out inventory file</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants</from><to>Microsoft Excel Writer</to><enabled>Y</enabled> </hop>
   <hop> <from>Modify inventory values</from><to>Stream lookup</to><enabled>Y</enabled> </hop>
   <hop> <from>Stream lookup</from><to>Add constants</to><enabled>Y</enabled> </hop>
@@ -235,7 +234,7 @@
         <set_empty_string>Y</set_empty_string>
       </field>
       <field>
-        <name>MSRP</name>
+        <name>CUSTOMER_TYPE</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -247,7 +246,7 @@
         <set_empty_string>Y</set_empty_string>
       </field>
       <field>
-        <name>CUSTOMER_TYPE</name>
+        <name>MULTIBOX_SHIPMENT</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -257,6 +256,126 @@
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>Y</set_empty_string>
+      </field>
+      <field>
+        <name>SHIPPING_LENGTH</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>15</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>SHIPPING_WIDTH</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>11</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>SHIPPING_HEIGHT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>0.5</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>SHIPPING_WEIGHT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>1</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>CASE_PACK</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>1</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>INNER_PACK</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>1</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>DIM_CALC</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>LTL_FREIGHT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>SHIPPING_RESTRICTIONS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>No</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>COUNTRY_OF_ORIGIN</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>China</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -279,7 +398,7 @@
            <schema_name/>
            </partitioning>
     <connection>Porini_testing</connection>
-    <sql>SELECT SKU AS UPC, quantity, cost AS unitCost, style, size, style_and_size,body,std_size,&#x27;TEST&#x27; as description&#xd;&#xa;&#x23;FROM &#x5b;dbo&#x5d;.&#x5b;fnGetInventoryByStyleAndSizeTesting&#x5d;&#x28;&#x29; &#xa;FROM fnGetInventoryByStyleAndSizeTesting&#xd;&#xa;WHERE style IN &#x28;&#x24;&#x7b;SQL_ITEM_LIST&#x7d;&#x29;&#xd;&#xa;ORDER BY body,std_size desc&#x3b;&#xd;&#xa;</sql>
+    <sql>SELECT SKU AS UPC, quantity, cost AS wholesale_cost, RTRIM&#x28;style&#x29; as style, size, style_and_size,body,std_size,&#x27;TEST&#x27; as description&#xd;&#xa;&#x23;FROM &#x5b;dbo&#x5d;.&#x5b;fnGetInventoryByStyleAndSizeTesting&#x5d;&#x28;&#x29; &#xa;FROM fnGetInventoryByStyleAndSizeTesting&#xd;&#xa;WHERE style IN &#x28;&#x24;&#x7b;SQL_ITEM_LIST&#x7d;&#x29;&#xd;&#xa;ORDER BY body,std_size desc&#x3b;&#xd;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -404,7 +523,7 @@
         <hyperlinkField/>
       </field>
       <field>
-        <name>MAN_PART_NUM</name>
+        <name>style</name>
         <type>String</type>
         <format/>
         <title/>
@@ -416,7 +535,7 @@
         <hyperlinkField/>
       </field>
       <field>
-        <name>cost</name>
+        <name>unit_cost</name>
         <type>String</type>
         <format/>
         <title/>
@@ -452,7 +571,7 @@
         <hyperlinkField/>
       </field>
       <field>
-        <name>MSRP</name>
+        <name>msrp</name>
         <type>String</type>
         <format/>
         <title/>
@@ -524,7 +643,151 @@
         <hyperlinkField/>
       </field>
       <field>
+        <name>MULTIBOX_SHIPMENT</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>SHIPPING_LENGTH</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>SHIPPING_WIDTH</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>SHIPPING_HEIGHT</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>SHIPPING_WEIGHT</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>CASE_PACK</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>INNER_PACK</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>DIM_CALC</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>LTL_FREIGHT</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>SHIPPING_RESTRICTIONS</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>COUNTRY_OF_ORIGIN</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
         <name>short_description</name>
+        <type>String</type>
+        <format/>
+        <title/>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>long_description</name>
         <type>String</type>
         <format/>
         <title/>
@@ -559,15 +822,9 @@
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;&#x2f;&#x2f;writeToLog&#x28;&#x27;b&#x27;, &#x27;&#x2a;&#x2a;&#x2a;&#x2a;&#x2a;&#x2a;&#x2a;&#x2a;&#x27;&#x2b;getVariable&#x28;&#x27;DISCOUNT&#x27;,&#x27;r&#x27;&#x29;.toString&#x28;&#x29;&#x29;&#x3b;&#xa;&#x2f;&#x2f;var totalDiscount &#x3d; getVariable&#x28;&#x27;DISCOUNT&#x27;, 0&#x29;.toString&#x28;&#x29;&#x3b;&#xa;var totalDiscount &#x3d; &#x28;parseFloat&#x28;getVariable&#x28;&#x27;DISCOUNT&#x27;, &#x27;r&#x27;&#x29;.toString&#x28;&#x29;&#x29; &#x2a; parseFloat&#x28;unitCost&#x29;&#x29;&#x3b;&#x2f;&#x2f;.toString&#x28;&#x29;&#x3b;&#xa;&#x2f;&#x2f;setVariable&#x28;&#x27;cost&#x27;,  cost - totalDiscount, &#x27;r&#x27;&#x29;&#x3b;&#xa;var cost &#x3d; &#x28;str2num&#x28;unitCost&#x29; - str2num&#x28;totalDiscount&#x29;&#x29;&#x3b;&#x2f;&#x2f;.toString&#x28;&#x29;&#x3b;&#xd;&#xa;&#x2f;&#x2f;unitCost &#x3d; parseFloat&#x28;unitCost&#x29;.toFixed&#x28;2&#x29;&#x3b;&#xd;&#xa;&#x2f;&#x2f;writeToLog&#x28;&#x27;b&#x27;, parseFloat&#x28;unitCost&#x29;.toFixed&#x28;2&#x29;&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;if&#x28;parseInt&#x28;quantity&#x29; &#x3c; 5&#x29;&#xd;&#xa;	quantity &#x3d; 0&#x3b;&#xa;&#xa;&#x2f;&#x2f;var product_title &#x3d; &#x27;&#x27;&#x3b;&#xa;var color &#x3d; &#x27;&#x27;&#x3b;&#xa;var short_desc &#x3d; &#x27;&#x27;&#x3b;</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>      <field>        <name>totalDiscount</name>
-        <rename>totalDiscount</rename>
-        <type>Number</type>
-        <length>8</length>
-        <precision>2</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>cost</name>
-        <rename>cost</rename>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;&#x2f;&#x2f;writeToLog&#x28;&#x27;b&#x27;, &#x27;&#x2a;&#x2a;&#x2a;&#x2a;&#x2a;&#x2a;&#x2a;&#x2a;&#x27;&#x2b;getVariable&#x28;&#x27;DISCOUNT&#x27;,&#x27;r&#x27;&#x29;.toString&#x28;&#x29;&#x29;&#x3b;&#xa;&#x2f;&#x2f;var totalDiscount &#x3d; getVariable&#x28;&#x27;DISCOUNT&#x27;, 0&#x29;.toString&#x28;&#x29;&#x3b;&#xa;&#x2f;&#x2f;var totalDiscount &#x3d; &#x28;parseFloat&#x28;getVariable&#x28;&#x27;DISCOUNT&#x27;, &#x27;r&#x27;&#x29;.toString&#x28;&#x29;&#x29; &#x2a; parseFloat&#x28;unitCost&#x29;&#x29;&#x3b;&#x2f;&#x2f;.toString&#x28;&#x29;&#x3b;&#xa;&#x2f;&#x2f;setVariable&#x28;&#x27;cost&#x27;,  cost - totalDiscount, &#x27;r&#x27;&#x29;&#x3b;&#xa;&#x2f;&#x2f;var unit_cost &#x3d; &#x28;str2num&#x28;wholesale_cost&#x29; - str2num&#x28;totalDiscount&#x29;&#x29;&#x3b;&#x2f;&#x2f;.toString&#x28;&#x29;&#x3b;&#xd;&#xa;&#x2f;&#x2f;unitCost &#x3d; parseFloat&#x28;unitCost&#x29;.toFixed&#x28;2&#x29;&#x3b;&#xd;&#xa;&#x2f;&#x2f;writeToLog&#x28;&#x27;b&#x27;, parseFloat&#x28;unitCost&#x29;.toFixed&#x28;2&#x29;&#x29;&#x3b;&#xa;&#xa;var unit_cost &#x3d; parseFloat&#x28;wholesale_cost&#x29; &#x2a; parseFloat&#x28;getVariable&#x28;&#x27;DISCOUNT&#x27;, &#x27;r&#x27;&#x29;.toString&#x28;&#x29;&#x29;&#x3b;&#xd;&#xa;var msrp &#x3d; parseFloat&#x28;wholesale_cost&#x29; &#x2a; 2&#x3b;&#xa;&#xd;&#xa;if&#x28;parseInt&#x28;quantity&#x29; &#x3c; 5&#x29;&#xd;&#xa;	quantity &#x3d; 0&#x3b;</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>unit_cost</name>
+        <rename>unit_cost</rename>
         <type>Number</type>
         <length>8</length>
         <precision>2</precision>
@@ -578,22 +835,16 @@
         <length>-1</length>
         <precision>-1</precision>
         <replace>Y</replace>
-      </field>      <field>        <name>color</name>
-        <rename>color</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>      <field>        <name>short_desc</name>
-        <rename>short_desc</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
+      </field>      <field>        <name>msrp</name>
+        <rename>msrp</rename>
+        <type>Number</type>
+        <length>8</length>
+        <precision>2</precision>
         <replace>N</replace>
       </field>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>373</xloc>
-      <yloc>271</yloc>
+      <yloc>270</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -891,99 +1142,17 @@
         <default/>
         <type>String</type>
       </value>
+      <value>
+        <name>Content</name>
+        <rename>long_description</rename>
+        <default/>
+        <type>String</type>
+      </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>386</xloc>
       <yloc>148</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Write out inventory file</name>
-    <type>TextFileOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <separator>	</separator>
-    <enclosure>&#x22;</enclosure>
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>Y</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
-    <encoding>UTF-8</encoding>
-    <endedLine/>
-    <fileNameInField>N</fileNameInField>
-    <fileNameField/>
-    <create_parent_folder>Y</create_parent_folder>
-    <file>
-      <name>&#x24;&#x7b;Internal.Transformation.Filename.Directory&#x7d;&#x2f;&#x24;&#x7b;INV_FILE_NAME&#x7d;</name>
-      <is_command>N</is_command>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>N</do_not_open_new_file_init>
-      <extention/>
-      <append>N</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
-      <add_to_result_filenames>Y</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery>0</splitevery>
-    </file>
-    <fields>
-      <field>
-        <name>UPC</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>quantity</name>
-        <type>String</type>
-        <format>&#x23;</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>cost</name>
-        <type>Number</type>
-        <format>0.00</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>647</xloc>
-      <yloc>417</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
