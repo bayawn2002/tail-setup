@@ -219,7 +219,7 @@
       <arg_from_previous>N</arg_from_previous>
       <overwrite_files>Y</overwrite_files>
       <include_subfolders>N</include_subfolders>
-      <remove_source_files>N</remove_source_files>
+      <remove_source_files>Y</remove_source_files>
       <add_result_filesname>N</add_result_filesname>
       <destination_is_a_file>Y</destination_is_a_file>
       <create_destination_folder>Y</create_destination_folder>
